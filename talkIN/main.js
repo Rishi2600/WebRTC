@@ -2,7 +2,16 @@ let localStream;
 let remoteStream;
 let peerConnection;
 
+const servers = {
+    iceServers: [
+        {
+            urls: ["stun: stun1.1.google.com:19032", "stun: stun2.1.google.com:19032"]
+        }
+    ]
+}
+
 async function init() {
+    /*setting localStream. */
     localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
     document.getElementById("user-1").srcObject = localStream;
 
@@ -10,11 +19,16 @@ async function init() {
 }
 
 async function createOffer() {
-    peerConnection = new RTCPeerConnection();
+    /*establishing peerConnection. */
+    peerConnection = new RTCPeerConnection(servers);
 
+    /*setting remoteStream. */
     remoteStream = new MediaStream();
     document.getElementById("user-2").srcObject = remoteStream;
 
+    /*taking the tracks from the localStream and putting it into the peerConnection so that the remoteStream can access it. */
+
+    /*creating peerConnection --offer. */
     let offer = await peerConnection.createOffer()
     await peerConnection.setLocalDescription(offer);
 
