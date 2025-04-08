@@ -37,6 +37,13 @@ async function createOffer() {
         })
     }
 
+    /*creating new ice candidate when an offer is created. */
+    peerConnection.onicecandidate = async(event) => {
+        if(event.candidate) {
+            console.log(event.candidate)
+        }
+    }
+
     /*creating peerConnection --offer. */
     let offer = await peerConnection.createOffer()
     await peerConnection.setLocalDescription(offer);
