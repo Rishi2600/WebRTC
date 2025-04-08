@@ -1,3 +1,5 @@
+const APP_ID = process.env.APP_ID
+
 let localStream;
 let remoteStream;
 let peerConnection;
