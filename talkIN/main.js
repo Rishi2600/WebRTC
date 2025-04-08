@@ -27,6 +27,9 @@ async function createOffer() {
     document.getElementById("user-2").srcObject = remoteStream;
 
     /*taking the tracks from the localStream and putting it into the peerConnection so that the remoteStream can access it. */
+    localStream.getTracks().forEach((tracks) => {
+        peerConnection.addTracks(tracks, localStream)
+    });
 
     /*creating peerConnection --offer. */
     let offer = await peerConnection.createOffer()
