@@ -56,6 +56,10 @@ async function createOffer(MemberId) {
     document.getElementById("user-2").srcObject = remoteStream;
 
     /*taking the tracks from the localStream and putting it into the peerConnection so that the remoteStream can access it. */
+    if(!localStream) {
+        localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+        document.getElementById("user-1").srcObject = localStream;
+    }
     localStream.getTracks().forEach((tracks) => {
         peerConnection.addTracks(tracks, localStream)
     });
@@ -69,7 +73,8 @@ async function createOffer(MemberId) {
     /*creating new ice candidate when an offer is created. */
     peerConnection.onicecandidate = async(event) => {
         if(event.candidate) {
-            console.log(event.candidate)
+            // console.log(event.candidate)
+            client.sendMessageToPeer(JSON.stringify({"type": "candidate", "candidate": event.candidate}), MemberId)
         }
     }
 
