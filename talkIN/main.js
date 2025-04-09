@@ -28,10 +28,17 @@ async function init() {
 
     channel.on("MemberJoined", handleUserJoined)
 
+    client.on("MessageFromPeer", handleMessageFromPeer)
+
     /*setting localStream. */
     localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
     document.getElementById("user-1").srcObject = localStream;
 
+}
+
+async function handleMessageFromPeer(message, MemberId) {
+    message = JSON.parse(message.text)
+    console.log(`Message ${message} from the member with id: ${MemberId}`)
 }
 
 async function handleUserJoined(MemberId) {
@@ -72,7 +79,7 @@ async function createOffer(MemberId) {
 
     console.log(offer);
 
-    client.sendMessageToPeer({Text: "Hey, this is the message to the peer."}, MemberId)
+    client.sendMessageToPeer(JSON.stringify({"type": "offer", "offer": offer}), MemberId)
 }
 
 init();
