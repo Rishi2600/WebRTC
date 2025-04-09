@@ -39,15 +39,19 @@ async function init() {
 async function handleMessageFromPeer(message, MemberId) {
     message = JSON.parse(message.text)
     console.log(`Message ${message} from the member with id: ${MemberId}`)
+
+    if(message.type === "offer") {
+        createAnswer(MemberId, message.offer)
+    }
 }
 
 async function handleUserJoined(MemberId) {
     console.log(MemberId)
 
-    createOffer(MemberId);
+    await createOffer(MemberId);
 }
 
-async function createOffer(MemberId) {
+async function createPeerConnection(MemberId) {
     /*establishing peerConnection. */
     peerConnection = new RTCPeerConnection(servers);
 
@@ -77,7 +81,12 @@ async function createOffer(MemberId) {
             client.sendMessageToPeer(JSON.stringify({"type": "candidate", "candidate": event.candidate}), MemberId)
         }
     }
+}
 
+async function createOffer(MemberId) {
+
+    await createPeerConnection(MemberId);
+   
     /*creating peerConnection --offer. */
     let offer = await peerConnection.createOffer()
     await peerConnection.setLocalDescription(offer);
@@ -85,6 +94,20 @@ async function createOffer(MemberId) {
     console.log(offer);
 
     client.sendMessageToPeer(JSON.stringify({"type": "offer", "offer": offer}), MemberId)
+}
+
+async function createAnswer(MemberId, offer) {
+
+    await createPeerConnection(MemberId);
+
+    /*creating peerConnection --answer. */
+    await peerConnection.remoteDescription(offer);
+
+    let answer = await peerConnection.createAnswer()
+    await peerConnection.setLocalDescription(answer);
+
+    client.sendMessageToPeer(JSON.stringify({"type": "answer", "answer": answer}), MemberId)
+
 }
 
 init();
