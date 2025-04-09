@@ -40,14 +40,17 @@ async function handleMessageFromPeer(message, MemberId) {
     message = JSON.parse(message.text)
     console.log(`Message ${message} from the member with id: ${MemberId}`)
 
+    /*creating the answer at localPeer if the message from remotePeer is an offer. */
     if(message.type === "offer") {
         createAnswer(MemberId, message.offer)
     }
 
+    /*adding the answer at localPeer if the message from remotePeer is an answer. */
     if(message.type === "answer") {
-        setAnswer(message.answer)
+        addAnswer(message.answer)
     }
 
+    /*adding an IceCandidate at localPeer if the message from remotePeer is an IceCandidate */
     if(message.type === "candidate") {
         if(peerConnection) {
             peerConnection.addIceCandidate(message.candidate)
