@@ -19,20 +19,28 @@ const servers = {
 }
 
 async function init() {
+    /*signaling server using agora but can be done manually too. */
     client = await AgoraRTC.createInstance(APP_ID)
     await client.login({uid, token}) 
 
     channel = client.createChannel("main");
     await channel.join()
 
+    channel.on("MemberJoined", handleUserJoined)
+
     /*setting localStream. */
     localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
     document.getElementById("user-1").srcObject = localStream;
 
-    createOffer();
 }
 
-async function createOffer() {
+async function handleUserJoined(MemberId) {
+    console.log(MemberId)
+
+    createOffer(MemberId);
+}
+
+async function createOffer(MemberId) {
     /*establishing peerConnection. */
     peerConnection = new RTCPeerConnection(servers);
 
@@ -63,6 +71,8 @@ async function createOffer() {
     await peerConnection.setLocalDescription(offer);
 
     console.log(offer);
+
+    client.sendMessageToPeer({Text: "Hey, this is the message to the peer."}, MemberId)
 }
 
 init();
