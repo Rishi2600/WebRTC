@@ -43,6 +43,16 @@ async function handleMessageFromPeer(message, MemberId) {
     if(message.type === "offer") {
         createAnswer(MemberId, message.offer)
     }
+
+    if(message.type === "answer") {
+        setAnswer(message.answer)
+    }
+
+    if(message.type === "candidate") {
+        if(peerConnection) {
+            peerConnection.addIceCandidate(message.candidate)
+        }
+    }
 }
 
 async function handleUserJoined(MemberId) {
@@ -108,6 +118,12 @@ async function createAnswer(MemberId, offer) {
 
     client.sendMessageToPeer(JSON.stringify({"type": "answer", "answer": answer}), MemberId)
 
+}
+
+let = addAnswer = async (answer) => {
+    if(!peerConnection.currentRemoteDescription) {
+        peerConnection.setRemoteDescription(answer)
+    }
 }
 
 init();
