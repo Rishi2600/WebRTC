@@ -1,5 +1,11 @@
 const APP_ID = process.env.APP_ID
 
+let token = null;
+let uid = string(Math.floor(Math.random() * 10000));
+
+let client;
+let channel;
+
 let localStream;
 let remoteStream;
 let peerConnection;
@@ -13,6 +19,12 @@ const servers = {
 }
 
 async function init() {
+    client = await AgoraRTC.createInstance(APP_ID)
+    await client.login({uid, token}) 
+
+    channel = client.createChannel("main");
+    await channel.join()
+
     /*setting localStream. */
     localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
     document.getElementById("user-1").srcObject = localStream;
