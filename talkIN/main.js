@@ -28,6 +28,8 @@ async function init() {
 
     channel.on("MemberJoined", handleUserJoined)
 
+    channel.on("MemberLeft", handleUserLeft)
+
     client.on("MessageFromPeer", handleMessageFromPeer)
 
     /*setting localStream. */
@@ -56,6 +58,10 @@ async function handleMessageFromPeer(message, MemberId) {
             peerConnection.addIceCandidate(message.candidate)
         }
     }
+}
+
+async function handleUserLeft(MemberId) {
+    document.getElementById("user-2").style.display = "none"
 }
 
 async function handleUserJoined(MemberId) {
