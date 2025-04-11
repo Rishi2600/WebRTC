@@ -137,4 +137,11 @@ let = addAnswer = async (answer) => {
     }
 }
 
+let leaveChannel = async () => {
+    await channel.leave();
+    await client.logout();
+}
+
+window.addEventListener("beforeunload", leaveChannel)
+
 init();
