@@ -3,6 +3,14 @@ const APP_ID = process.env.APP_ID
 let token = null;
 let uid = string(Math.floor(Math.random() * 10000));
 
+let queryString = window.location.search;
+let urlParams = new URLSearchParams(queryString);
+let roomId = urlParams.get("room");
+
+if(!roomId) {
+    window.location("lobby.html")
+}
+
 let client;
 let channel;
 
