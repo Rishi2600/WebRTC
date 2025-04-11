@@ -70,6 +70,7 @@ async function handleMessageFromPeer(message, MemberId) {
 
 async function handleUserLeft(MemberId) {
     document.getElementById("user-2").style.display = "none"
+    document.getElementById("user-1").classList.remove("smallFrame")
 }
 
 async function handleUserJoined(MemberId) {
@@ -87,6 +88,8 @@ async function createPeerConnection(MemberId) {
     document.getElementById("user-2").srcObject = remoteStream;
 
     document.getElementById("user-2").style.display = "block";
+
+    document.getElementById("user-1").classList.add("smallFrame")
 
     /*taking the tracks from the localStream and putting it into the peerConnection so that the remoteStream can access it. */
     if(!localStream) {
