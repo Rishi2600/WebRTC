@@ -31,7 +31,7 @@ async function init() {
     client = await AgoraRTC.createInstance(APP_ID)
     await client.login({uid, token}) 
 
-    channel = client.createChannel("main");
+    channel = client.createChannel(roomId);
     await channel.join()
 
     channel.on("MemberJoined", handleUserJoined)
@@ -149,6 +149,20 @@ let leaveChannel = async () => {
     await channel.leave();
     await client.logout();
 }
+
+async function toggleCamera() {
+    let videoTrack = localStream.getTracks().find(track => track.kind === "video")
+
+    if(videoTrack.enabled) {
+        videoTrack.enabled = false;
+        document.getElementById("camera-btn").style.backgroundColor = "rgb(255, 80, 80)"
+    }else {
+        videoTrack.enabled = true;
+        document.getElementById("camera-btn").style.backgroundColor = "rgb(179, 102, 249, .9)"
+    }
+}
+
+document.getElementById("camera-btn").addEventListener("click", toggleCamera);
 
 window.addEventListener("beforeunload", leaveChannel)
 
