@@ -13,3 +13,7 @@
     height: 300px;
     border-radius: 5px;
 }
+
+#user-2{
+    display: none;
+}

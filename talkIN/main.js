@@ -72,6 +72,8 @@ async function createPeerConnection(MemberId) {
     remoteStream = new MediaStream();
     document.getElementById("user-2").srcObject = remoteStream;
 
+    document.getElementById("user-2").style.display = "block";
+
     /*taking the tracks from the localStream and putting it into the peerConnection so that the remoteStream can access it. */
     if(!localStream) {
         localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
