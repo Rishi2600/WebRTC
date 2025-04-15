@@ -1,0 +1,29 @@
+const APP_ID = process.env.APP_ID;
+
+let uid = sessionStorage.setItem("uid");
+if(!uid) {
+    /*this uid ideally needs to be the id which is generated in the db. */
+    uid = String(Math.floor(Math.random() * 10000))
+    sessionStorage.setItem("uid", uid)
+}
+
+let token = null;
+let client;
+
+const queryString = window.location.search
+const urlParams = new URLSearchParams(queryString);
+let roomId = urlParams.get("room")
+
+if(!roomId) {
+    roomId = "main"
+}
+
+let localTrack = [];
+let remoteUsers = {};
+
+async function joinRoomInit() {
+    client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
+    await client.join(APP_ID, roomId, token, uid)
+}
+
+joinRoomInit();
