@@ -63,6 +63,11 @@ async function handleUserPublished(user, mediaType) {
 
     }
 
+    if(displayFrame.style.display) {
+        player.style.height = "85px"
+        player.style.width = "85px"
+    }
+
     if(mediaType === "video") {
         user.videoTrack.play(`user-${user.uid}`)
     }
@@ -74,6 +79,17 @@ async function handleUserPublished(user, mediaType) {
 let handleUserLeft = async(user) => {
     delete remoteUsers[user.uid]
     document.getElementById(`user-container-${user.uid}`).remove()
+
+    if(userIdInDisplayFrame === `user-container-${user.uid}`) {
+        displayFrame.style.display = null;
+        
+        let videoFrames = document.getElementsByClassName("video__container")
+
+        for (let i=0; videoFrames.length<i; i++) {
+            videoFrames[i].style.height = "200px"
+            videoFrames[i].style.width = "200px"
+        }
+    }
 }
 
 joinRoomInit();
