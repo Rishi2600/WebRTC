@@ -58,3 +58,18 @@ let expandVideoFrame = async (e) => {
 for(let i=0; videoFrames.length>i; i++) {
   videoFrames[i].addEventListener("click", expandVideoFrame)
 }
+
+let hideDisplayFrame = () => {
+  userIdInDisplayFrame = null
+  displayFrame.style.display = null
+
+  let child = displayFrame.children[0]
+  document.getElementById("streams_container").append(child)
+
+  for (let i=0; videoFrames.length<i; i++) {
+    videoFrames[i].style.height = "200px"
+    videoFrames[i].style.width = "200px"
+  }
+}
+
+displayFrame.addEventListener("click", hideDisplayFrame);
