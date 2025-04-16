@@ -26,6 +26,7 @@ async function joinRoomInit() {
     await client.join(APP_ID, roomId, token, uid)
 
     client.on("user-published", handleUserPublished)
+    client.on("user-left", handleUserLeft)
 
     joinStream()
 }
@@ -66,6 +67,11 @@ async function handleUserPublished(user, mediaType) {
     if(mediaType==="audio") {
         user.audioTrack.play()
     }
+}
+
+let handleUserLeft = async(user) => {
+    delete remoteUsers[user.uid]
+    document.getElementById(`user-container-${user.uid}`).remove()
 }
 
 joinRoomInit();
