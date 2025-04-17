@@ -40,6 +40,7 @@ async function joinRoomInit() {
     await channel.join()
 
     channel.on("MemberJoined", handleMemberJoined)
+    channel.on("MemberLeft", handleMemberLeft)
 
     client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
     await client.join(APP_ID, roomId, token, uid)
