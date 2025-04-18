@@ -73,11 +73,12 @@ async function joinRoomInit() {
 
     client.on("user-published", handleUserPublished)
     client.on("user-left", handleUserLeft)
-
-    joinStream()
 }
 
 async function joinStream() {
+    document.getElementById("join-btn").style.display = "none"
+    document.getElementsByClassName("stream__actions")[0].style.display = "flex"
+
     localTracks = await AgoraRTC.createMicrophoneAndCameraTracks({}, {encoderConfig: {
         width: {min: 640, ideal: 1920, max: 1920},
         height: {min: 480, ideal: 1080, max: 1080}
@@ -232,5 +233,6 @@ let toggleScreen = async(e) => {
 document.getElementById("camera-btn").addEventListener("click", toggleCamera)
 document.getElementById("mic-btn").addEventListener("click", toggleMic)
 document.getElementById("screen-btn").addEventListener("click", toggleScreen)
+document.getElementById("join-btn").addEventListener("click", joinStream)
 
 joinRoomInit();
