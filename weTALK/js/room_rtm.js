@@ -5,6 +5,9 @@ let handleMemberJoined = async(MemberId) => {
 
     let members = await channel.getMembers()
     updateMemberTotal(members)
+
+    let {name} = await rtmClient.getUserAttributesByKeys(MemberId, ["name"]) 
+    addBotMessagetoDom(`Welcome to the chat-room ${name}!`)
 }
 
 let addMemberToDom = async(MemberId) => {
@@ -17,6 +20,8 @@ let addMemberToDom = async(MemberId) => {
                     </div>`
 
     memberWrapper.insertAdjacentHTML("beforeend", memberItem)
+
+    // addBotMessagetoDom(`Welcome to the chat-room ${name}!`)
 }
 
 let updateMemberTotal = async(members) => {
@@ -33,6 +38,10 @@ let handleMemberLeft = async(MemberId) => {
 
 let removeMemberFromDom = async(MemberId) => {
     let memberWrapper = document.getElementById(`member__${MemberId}__wrapper`)
+
+    let name = memberWrapper.getElementsByClassName("member_name")[0].textContent
+    addBotMessagetoDom(`${name} Left, BOOOOO!!!`)
+
     memberWrapper.remove()
 }
 
