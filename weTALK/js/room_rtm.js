@@ -67,12 +67,30 @@ let sendMessage = async(e) => {
 }
 
 let addMessagetoDom = (name, message) => {
-    let messageWrapper = document.getElementById("message")
+    let messageWrapper = document.getElementById("messages")
 
     let newMessage = `<div class="message__wrapper">
                         <div class="message__body">
                             <strong class="message__author">${name}</strong>
                             <p class="message__text">${message}</p>
+                        </div>
+                    </div>`
+
+    messageWrapper.insertAdjacentHTML("beforeend", newMessage)
+
+    let lastMessage = document.querySelector("#messages .message__wrapper: last-child")
+    if(lastMessage) {
+        lastMessage.scrollIntoView()
+    }
+}
+
+let addBotMessagetoDom = (botMessage) => {
+    let messageWrapper = document.getElementById("messages")
+
+    let newMessage = `<div class="message__wrapper">
+                        <div class="message__body__bot">
+                            <strong class="message__author__bot">🤖 Mumble Bot</strong>
+                            <p class="message__text__bot">${botMessage}</p>
                         </div>
                     </div>`
 
