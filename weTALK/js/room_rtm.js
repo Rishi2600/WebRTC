@@ -62,6 +62,15 @@ let handleChannelMessage = async(messageData, displayName) => {
     if(data.type === "chat") {
         addMessagetoDom(data.displayName, data.message)
     }
+
+    if(data.type === "user_left") {
+        document.getElementById(`user-container-${data.uid}`).remove()
+
+        for (let i=0; videoFrames.length<i; i++) {
+            videoFrames[i].style.height = "200px"
+            videoFrames[i].style.width = "200px"
+          }
+    }
 }
 
 let sendMessage = async(e) => {
