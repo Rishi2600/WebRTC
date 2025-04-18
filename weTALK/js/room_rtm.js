@@ -46,9 +46,50 @@ let getMembers = async() => {
     }
 }
 
+let handleChannelMessage = async(messageData, displayName) => {
+    let data = JSON.parse(messageData.text)
+    console.log(`message: ${data} from user: ${displayName}`)
+
+    if(data.type === "chat") {
+        addMessagetoDom(data.displayName, data.message)
+    }
+}
+
+let sendMessage = async(e) => {
+    e.preventDefault()
+
+    let message = e.target.message.value
+    channel.sendMessage({text:JSON.stringify({"type": "chat", "message": message, "displayName": displayName})})
+
+    addMemberToDom(displayName, message)
+
+    e.target.reset()
+}
+
+let addMessagetoDom = (name, message) => {
+    let messageWrapper = document.getElementById("message")
+
+    let newMessage = `<div class="message__wrapper">
+                        <div class="message__body">
+                            <strong class="message__author">${name}</strong>
+                            <p class="message__text">${message}</p>
+                        </div>
+                    </div>`
+
+    messageWrapper.insertAdjacentHTML("beforeend", newMessage)
+
+    let lastMessage = document.querySelector("#messages .message__wrapper: last-child")
+    if(lastMessage) {
+        lastMessage.scrollIntoView()
+    }
+}
+
 let leaveChannel = async() => {
     await channel.leave()
     await rtmClient.logout()
 }
 
 window.addEventListener("beforeunload", leaveChannel)
+
+let messageForm = document.getElementById("message__form")
+messageForm.addEventListener("submit", sendMessage)
