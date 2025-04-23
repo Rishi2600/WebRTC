@@ -13,7 +13,7 @@ let client;
 let rtmClient;
 let channel;
 
-const queryString = window.location.search
+const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 let roomId = urlParams.get("room")
 
