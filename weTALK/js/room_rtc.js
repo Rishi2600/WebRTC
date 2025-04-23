@@ -15,7 +15,7 @@ let channel;
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-let roomId = urlParams.get("room")
+let roomId = urlParams.get("room");
 
 if(!roomId) {
     roomId = "main"
