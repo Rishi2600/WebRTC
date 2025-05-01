@@ -1,6 +1,7 @@
 This GitHub repo, as the name suggests, is purely focused on WebRTC or peer-to-peer real-time communication. This repo consists of two projects named:
   - talkIN - focuses on peer-to-peer(101) real-time video calling whereas
   - weTALK - focuses on peer-to-peer(101) real-time video calling and full-fledged group video conferencing.
+  -zoom-clone - uses Peer and PeerJS as dependencies for handling the signaling.
 
 This repo is purely focusing on WebRTC principles at a root level 
 
